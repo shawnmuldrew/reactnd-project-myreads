@@ -1,5 +1,5 @@
 import React from 'react'
-// import * as BooksAPI from './BooksAPI'
+import * as BooksAPI from './BooksAPI'
 import './App.css'
 import CurrentlyReading from './CurrentlyReading'
 import WantToRead from './WantToRead'
@@ -7,6 +7,8 @@ import Read from './Read'
 
 class BooksApp extends React.Component {
   state = {
+    books: [],
+    test_search: [],
     /**
      * TODO: Instead of using this state variable to keep track of which page
      * we're on, use the URL in the browser's address bar. This will ensure that
@@ -14,6 +16,22 @@ class BooksApp extends React.Component {
      * pages, as well as provide a good URL they can bookmark and share.
      */
     showSearchPage: false
+  }
+
+  componentDidMount() {
+    BooksAPI.getAll()
+      .then((books) => {
+        this.setState(() => ({
+          books
+        }))
+      })
+
+      BooksAPI.search('poetry')
+      .then((test_search) => {
+        this.setState(() => ({
+          test_search
+        }))
+      })
   }
 
   render() {
@@ -47,7 +65,9 @@ class BooksApp extends React.Component {
             </div>
             <div className="list-books-content">
               <div>
-                <CurrentlyReading/>
+                <CurrentlyReading
+                  books = {this.state.books}
+                />
                 <WantToRead/>
                 <Read/>
               </div>
