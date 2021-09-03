@@ -4,11 +4,18 @@ import Book from './Book'
 
 class Read extends Component {
   static propTypes = {
-    readBooks: PropTypes.array.isRequired
+    readBooks: PropTypes.array.isRequired,
+    moveBook: PropTypes.func
   }
+
+  changeShelf = (bookId,newShelf) => {
+    if (this.props.moveBook) {
+      this.props.moveBook(bookId,newShelf)
+    }
+  }
+
   render() {
     const { readBooks } = this.props
-    console.log(readBooks)
     return(
       <div className="bookshelf">
         <h2 className="bookshelf-title">Read</h2>
@@ -18,6 +25,9 @@ class Read extends Component {
               <li key={book.id}>
                 <Book
                   book = {book}
+                  onChangeShelf = {(bookId,newShelf) => {
+                    this.changeShelf(bookId,newShelf)
+                  }}
                 />
               </li>
             ))}

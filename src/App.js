@@ -34,6 +34,20 @@ class BooksApp extends React.Component {
       })
   }
 
+  moveBook = (bookId,newShelf) => {
+    /*update book in state */
+    const updatedBooks = this.state.books.map(book => {
+      if (book.id === bookId) {
+        return {...book, shelf:newShelf};
+      } else {
+        return book;
+      }
+    })
+    this.setState(() => ({
+      books: updatedBooks
+    }))
+  }
+
   render() {
     return (
       <div className="app">
@@ -67,12 +81,21 @@ class BooksApp extends React.Component {
               <div>
                 <CurrentlyReading
                   books = {this.state.books.filter(book => book.shelf === 'currentlyReading')}
+                  moveBook = {(bookId,newShelf) => {
+                    this.moveBook(bookId,newShelf)
+                  }}
                 />
                 <WantToRead
                   wantToReadBooks = {this.state.books.filter(book => book.shelf === 'wantToRead')}
+                  moveBook = {(bookId,newShelf) => {
+                    this.moveBook(bookId,newShelf)
+                  }}                  
                 />
                 <Read
                   readBooks = {this.state.books.filter(book => book.shelf === 'read')}
+                  moveBook = {(bookId,newShelf) => {
+                    this.moveBook(bookId,newShelf)
+                  }}                  
                 />
               </div>
             </div>

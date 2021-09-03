@@ -3,8 +3,19 @@ import PropTypes from 'prop-types'
 
 class Book extends Component {
   static propTypes = {
-    book: PropTypes.object.isRequired
+    book: PropTypes.object.isRequired,
+    onChangeShelf: PropTypes.func
   }
+
+  handleChange = (event) => {
+    event.preventDefault()
+    console.log("Event.target.value is", event.target.value);
+
+    if (this.props.onChangeShelf) {
+      this.props.onChangeShelf(this.props.book.id,event.target.value)
+    }
+  }
+
   render() {
     const { book } = this.props
     return (
@@ -12,8 +23,8 @@ class Book extends Component {
         <div className="book-top">
           <div className="book-cover" style={{ width: 128, height: 188, backgroundImage: `url(${book.imageLinks.thumbnail})` }}></div>
           <div className="book-shelf-changer">
-            <select>
-              <option value="move" disabled>Move to...</option>
+            <select onChange={this.handleChange}>
+              <option selected="true" value="move" disabled>Move to...</option>
               <option value="currentlyReading">Currently Reading</option>
               <option value="wantToRead">Want to Read</option>
               <option value="read">Read</option>
