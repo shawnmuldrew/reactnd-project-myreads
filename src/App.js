@@ -66,10 +66,14 @@ class BooksApp extends React.Component {
             <div className="list-books-content">
               <div>
                 <CurrentlyReading
-                  books = {this.state.books}
+                  books = {this.state.books.filter(book => book.shelf === 'currentlyReading')}
                 />
-                <WantToRead/>
-                <Read/>
+                <WantToRead
+                  wantToReadBooks = {this.state.books.filter(book => book.shelf === 'wantToRead')}
+                />
+                <Read
+                  readBooks = {this.state.books.filter(book => book.shelf === 'read')}
+                />
               </div>
             </div>
             <div className="open-search">
