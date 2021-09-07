@@ -12,7 +12,7 @@ class Book extends Component {
     console.log("Event.target.value is", event.target.value);
 
     if (this.props.onChangeShelf) {
-      this.props.onChangeShelf(this.props.book.id,event.target.value)
+      this.props.onChangeShelf(this.props.book,event.target.value)
     }
   }
 

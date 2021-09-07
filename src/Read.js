@@ -8,9 +8,9 @@ class Read extends Component {
     moveBook: PropTypes.func
   }
 
-  changeShelf = (bookId,newShelf) => {
+  changeShelf = (book,newShelf) => {
     if (this.props.moveBook) {
-      this.props.moveBook(bookId,newShelf)
+      this.props.moveBook(book,newShelf)
     }
   }
 
@@ -25,8 +25,8 @@ class Read extends Component {
               <li key={book.id}>
                 <Book
                   book = {book}
-                  onChangeShelf = {(bookId,newShelf) => {
-                    this.changeShelf(bookId,newShelf)
+                  onChangeShelf = {(book,newShelf) => {
+                    this.changeShelf(book,newShelf)
                   }}
                 />
               </li>
