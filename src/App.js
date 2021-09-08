@@ -11,7 +11,7 @@ import Book from './Book'
 class BooksApp extends React.Component {
   state = {
     books: [],
-    test_search: [],
+    searchedBooks: [],
     searchQuery: '',
     /**
      * TODO: Instead of using this state variable to keep track of which page
@@ -52,12 +52,19 @@ class BooksApp extends React.Component {
   }
 
   updateSearchResults = (searchQuery) => {
-    BooksAPI.search(searchQuery.trim())
-    .then((test_search) => {
-      this.setState(() => ({
-        test_search
+    if (searchQuery !== '') {
+      BooksAPI.search(searchQuery.trim())
+      .then((searchedBooks) => {
+        this.setState(() => ({
+          searchedBooks
+        }))
+      })
+    } else {
+      let searchedBooks = []
+        this.setState(() => ({
+          searchedBooks
       }))
-    })
+    }
   }
 
   addToShelf = (book,newShelf) => {
@@ -135,7 +142,8 @@ class BooksApp extends React.Component {
             </div>
             <div className="search-books-results">
               <ol className="books-grid">
-                {this.state.test_search.map((searchedBook) => (
+                {this.state.searchedBooks.length ? (
+                 this.state.searchedBooks.map((searchedBook) => (
                 <li key={searchedBook.id}>
                   <Book
                     book = {searchedBook}
@@ -145,8 +153,9 @@ class BooksApp extends React.Component {
                     }}
                   />
                 </li>
-                ))}
-              </ol>
+                ))) : <p>No Results</p>
+                }
+              </ol> 
             </div>
           </div>
         )} />
