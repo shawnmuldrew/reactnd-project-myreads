@@ -9,7 +9,6 @@ class Book extends Component {
 
   handleChange = (event) => {
     event.preventDefault()
-    console.log("Event.target.value is", event.target.value);
 
     if (this.props.onChangeShelf) {
       this.props.onChangeShelf(this.props.book,event.target.value)
