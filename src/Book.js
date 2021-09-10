@@ -21,7 +21,7 @@ class Book extends Component {
     return (
       <div className="book">
         <div className="book-top">
-          <div className="book-cover" style={{ width: 128, height: 188, backgroundImage: `url(${book.imageLinks.thumbnail})` }}></div>
+          <div className="book-cover" style={{ width: 128, height: 188, backgroundImage: book.imageLinks ? `url(${book.imageLinks.thumbnail})` : '' }}></div>
           <div className="book-shelf-changer">
             <select value={book.hasOwnProperty('shelf') ? book.shelf : 'none'} onChange={this.handleChange}>
               <option value="move" disabled>Move to...</option>

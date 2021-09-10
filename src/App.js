@@ -13,12 +13,6 @@ class BooksApp extends React.Component {
     books: [],
     searchedBooks: [],
     searchQuery: '',
-    /**
-     * TODO: Instead of using this state variable to keep track of which page
-     * we're on, use the URL in the browser's address bar. This will ensure that
-     * users can use the browser's back and forward buttons to navigate between
-     * pages, as well as provide a good URL they can bookmark and share.
-     */
   }
 
   componentDidMount() {
@@ -49,6 +43,7 @@ class BooksApp extends React.Component {
     this.setState(() => ({
       books: updatedBooks
     }))
+    BooksAPI.update(book,newShelf)
   }
 
   updateSearchResults = (searchQuery) => {
@@ -56,13 +51,15 @@ class BooksApp extends React.Component {
       BooksAPI.search(searchQuery.trim())
       .then((searchedBooks) => {
         this.setState(() => ({
-          searchedBooks
+          searchedBooks,
+          searchQuery
         }))
       })
     } else {
       let searchedBooks = []
         this.setState(() => ({
-          searchedBooks
+          searchedBooks,
+          searchQuery
       }))
     }
   }
@@ -76,10 +73,18 @@ class BooksApp extends React.Component {
     }
     console.log('add to shelf')
     console.log(this.state.books)
+    BooksAPI.update(book,newShelf)
+  }
+
+  /* Return shelf if book exists on any of the shelves */
+  getBookShelf = (searchedBook,books) => {
+    const foundBook = books.find(book => book.id === searchedBook.id)
+    /*return foundBook ? foundBook.shelf : 'none'*/
+    const shelf = foundBook ? foundBook.shelf : 'none'
+    return { ...searchedBook,shelf}
   }
 
   render() {
-    const { searchQuery } = this.state.searchQuery
     return (
       <div className="app">
         <Route exact path ='/' render={() => (
@@ -134,7 +139,7 @@ class BooksApp extends React.Component {
                 <input 
                   type="text" 
                   placeholder="Search by title or author"
-                  value={searchQuery}
+                  value={this.state.searchQuery}
                   onChange={(event) => this.updateSearchResults(event.target.value)}
                 />
 
@@ -145,15 +150,17 @@ class BooksApp extends React.Component {
                 {this.state.searchedBooks.length ? (
                  this.state.searchedBooks.map((searchedBook) => (
                 <li key={searchedBook.id}>
+                {/* Add shelf to books returned by search then pass to Book Component */}
                   <Book
-                    book = {searchedBook}
+                    book = {this.getBookShelf(searchedBook,this.state.books)}
                     onChangeShelf = {(book,newShelf) => {
                       this.addToShelf(book,newShelf)
-                      history.push('/')
+                      /* If you want to return to shelf after picking a book from search results */
+                      /*history.push('/')*/
                     }}
                   />
                 </li>
-                ))) : <p>No Results</p>
+                ))) : <h2>No Results</h2>
                 }
               </ol> 
             </div>
