@@ -93,8 +93,6 @@ class SearchBooks extends Component {
                 book = {this.getBookShelf(searchedBook,books)}
                 onChangeShelf = {(book,newShelf) => {
                   this.onAddToShelf(book,newShelf)
-                  /* If you want to return to shelf after picking a book from search results */
-                  /*history.push('/')*/
                 }}
               />
             </li>
