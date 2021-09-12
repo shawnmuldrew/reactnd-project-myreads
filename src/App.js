@@ -67,21 +67,15 @@ class BooksApp extends React.Component {
               <div>
                 <CurrentlyReading
                   books = {this.state.books.filter(book => book.shelf === 'currentlyReading')}
-                  moveBook = {(book,newShelf) => {
-                    this.moveBook(book,newShelf)
-                  }}
+                  moveBook = {this.moveBook}
                 />
                 <WantToRead
                   wantToReadBooks = {this.state.books.filter(book => book.shelf === 'wantToRead')}
-                  moveBook = {(book,newShelf) => {
-                    this.moveBook(book,newShelf)
-                  }}                  
+                  moveBook = {this.moveBook}                  
                 />
                 <Read
                   readBooks = {this.state.books.filter(book => book.shelf === 'read')}
-                  moveBook = {(book,newShelf) => {
-                    this.moveBook(book,newShelf)
-                  }}                  
+                  moveBook = {this.moveBook}                  
                 />
               </div>
             </div>
@@ -95,9 +89,7 @@ class BooksApp extends React.Component {
         <Route path='/search' render={() => (
           <SearchBooks
             books = {this.state.books}
-            addToShelf = {(book,newShelf) => {
-              this.addToShelf(book,newShelf)
-            }}
+            addToShelf = {this.addToShelf}
           />
         )} />
       </div>
