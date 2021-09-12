@@ -35,11 +35,13 @@ class SearchBooks extends Component {
   /* Update searched books as input text changes */
   updateSearchResults = (searchQuery) => {
     if (searchQuery !== '') {
+      this.setState(() => ({
+        searchQuery
+      }))
       BooksAPI.search(searchQuery.trim())
       .then((searchedBooks) => {
         this.setState(() => ({
-          searchedBooks,
-          searchQuery
+          searchedBooks
         }))
       })
     } else {
@@ -91,9 +93,7 @@ class SearchBooks extends Component {
             {/* Add shelf to books returned by search then pass to Book Component */}
               <Book
                 book = {this.getBookShelf(searchedBook,books)}
-                onChangeShelf = {(book,newShelf) => {
-                  this.onAddToShelf(book,newShelf)
-                }}
+                onChangeShelf = {this.onAddToShelf}
               />
             </li>
             ))) : <h2>No Results</h2>

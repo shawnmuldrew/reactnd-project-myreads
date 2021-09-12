@@ -13,13 +13,9 @@ class BooksApp extends React.Component {
     books: [],
   }
 
-  componentDidMount() {
-    BooksAPI.getAll()
-      .then((books) => {
-        this.setState(() => ({
-          books
-        }))
-      })
+  async componentDidMount() {
+    const books = await BooksAPI.getAll()
+        this.setState({ books })
   }
 
   /* Move book to new shelf or no shelf */
@@ -52,6 +48,9 @@ class BooksApp extends React.Component {
       this.setState((currentState) => ({
         books: currentState.books.concat([newBook]) 
       }))
+    } else {
+      /* if book has already been added to shelf then just move to new shelf */
+      this.moveBook(book,newShelf)
     }
     BooksAPI.update(book,newShelf)
   }

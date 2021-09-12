@@ -25,9 +25,7 @@ class CurrentlyReading extends Component {
               <li key={book.id}>
                 <Book
                   book = {book}
-                  onChangeShelf = {(book,newShelf) => {
-                    this.changeShelf(book,newShelf)
-                  }}
+                  onChangeShelf = {this.changeShelf}
                 />
               </li>
             ))}
